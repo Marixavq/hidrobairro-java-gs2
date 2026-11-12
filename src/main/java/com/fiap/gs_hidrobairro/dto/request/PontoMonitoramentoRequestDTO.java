@@ -30,7 +30,9 @@ public record PontoMonitoramentoRequestDTO(
         String bairro,
 
         @NotNull(message = "A zona é obrigatória")
-        @Schema(description = "Zona da cidade", example = "SUL")
+        @Schema(
+                description = "Zona da cidade",
+                example = "SUL")
         Zona zona,
 
         @DecimalMin(value = "-90.0", message = "A latitude mínima é -90")

@@ -28,6 +28,7 @@ public class PontoMonitoramentoService {
         ponto.setNome(requestDTO.nome());
         ponto.setSubprefeitura(requestDTO.subprefeitura());
         ponto.setBairro(requestDTO.bairro());
+        ponto.setZona(requestDTO.zona());
         ponto.setLatitude(requestDTO.latitude());
         ponto.setLongitude(requestDTO.longitude());
         ponto.setLimiarAlertaCm(requestDTO.limiarAlertaCm());

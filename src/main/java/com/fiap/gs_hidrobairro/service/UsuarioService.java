@@ -9,6 +9,7 @@ import com.fiap.gs_hidrobairro.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -31,8 +34,8 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNome(requestDTO.nome());
         usuario.setEmail(requestDTO.email());
-      //  usuario.setSenhaHash(requestDTO.senha());
-        usuario.setSenhaHash(passwordEncoder.encode(senha));
+      //usuario.setSenhaHash(requestDTO.senha());
+        usuario.setSenhaHash(passwordEncoder.encode(requestDTO.senha()));
         usuario.setPapel(requestDTO.papel());
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);

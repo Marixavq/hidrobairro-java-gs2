@@ -1,5 +1,6 @@
 package com.fiap.gs_hidrobairro.config;
 
+import com.fiap.gs_hidrobairro.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -52,7 +53,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .anyRequest().authenticated()
-
                 )
                 .addFilterBefore(
                         jwtAuthenticationFilter,
