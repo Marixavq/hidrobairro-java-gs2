@@ -25,8 +25,8 @@ public class Usuario {
     @Column(length = 20, nullable = false)
     private PapelUsuario papel;
 
-    @Column(length = 1, nullable = false)
-    private String ativo = "S";
+    @Column//(length = 1, nullable = false)
+    private char ativo = 'S';
 
     @Column(name = "criado_em", insertable = false, updatable = false)
     private LocalDateTime criadoEm;
@@ -74,11 +74,11 @@ public class Usuario {
         this.papel = papel;
     }
 
-    public String getAtivo() {
+    public char getAtivo() {
         return ativo;
     }
 
-    public void setAtivo(String ativo) {
+    public void setAtivo(char ativo) {
         this.ativo = ativo;
     }
 

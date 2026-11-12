@@ -1,0 +1,79 @@
+package com.fiap.gs_hidrobairro.service;
+
+import com.fiap.gs_hidrobairro.dto.request.PontoMonitoramentoRequestDTO;
+import com.fiap.gs_hidrobairro.dto.response.PontoMonitoramentoResponseDTO;
+import com.fiap.gs_hidrobairro.exception.RecursoNaoEncontradoException;
+import com.fiap.gs_hidrobairro.model.PontoMonitoramento;
+import com.fiap.gs_hidrobairro.repository.PontoMonitoramentoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class PontoMonitoramentoService {
+
+    private final PontoMonitoramentoRepository pontoRepository;
+
+    @Autowired
+    public PontoMonitoramentoService(PontoMonitoramentoRepository pontoRepository) {
+        this.pontoRepository = pontoRepository;
+    }
+
+    @Transactional
+    public PontoMonitoramentoResponseDTO salvar(PontoMonitoramentoRequestDTO requestDTO) {
+
+        PontoMonitoramento ponto = new PontoMonitoramento();
+        ponto.setNome(requestDTO.nome());
+        ponto.setSubprefeitura(requestDTO.subprefeitura());
+        ponto.setBairro(requestDTO.bairro());
+        ponto.setLatitude(requestDTO.latitude());
+        ponto.setLongitude(requestDTO.longitude());
+        ponto.setLimiarAlertaCm(requestDTO.limiarAlertaCm());
+
+        PontoMonitoramento pontoSalvo = pontoRepository.save(ponto);
+
+        return PontoMonitoramentoResponseDTO.fromEntity(pontoSalvo);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PontoMonitoramentoResponseDTO> listarTodos(Pageable pageable) {
+        Page<PontoMonitoramento> pontos = pontoRepository.findAll(pageable);
+        return pontos.map(PontoMonitoramentoResponseDTO::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public PontoMonitoramentoResponseDTO buscarPorId(Long id) {
+        PontoMonitoramento ponto = pontoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Ponto de monitoramento não encontrado com ID: " + id));
+        return PontoMonitoramentoResponseDTO.fromEntity(ponto);
+    }
+
+    @Transactional
+    public PontoMonitoramentoResponseDTO atualizar(Long id, PontoMonitoramentoRequestDTO requestDTO) {
+        PontoMonitoramento pontoExistente = pontoRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Ponto de monitoramento não encontrado com ID: " + id));
+
+        pontoExistente.setNome(requestDTO.nome());
+        pontoExistente.setSubprefeitura(requestDTO.subprefeitura());
+        pontoExistente.setBairro(requestDTO.bairro());
+        pontoExistente.setZona(requestDTO.zona());
+        pontoExistente.setLatitude(requestDTO.latitude());
+        pontoExistente.setLongitude(requestDTO.longitude());
+        pontoExistente.setLimiarAlertaCm(requestDTO.limiarAlertaCm());
+
+        PontoMonitoramento pontoAtualizado = pontoRepository.save(pontoExistente);
+
+        return PontoMonitoramentoResponseDTO.fromEntity(pontoAtualizado);
+    }
+
+    @Transactional
+    public void deletar(Long id) {
+        if (!pontoRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("Ponto de monitoramento não encontrado com ID: " + id);
+        }
+        pontoRepository.deleteById(id);
+    }
+
+}

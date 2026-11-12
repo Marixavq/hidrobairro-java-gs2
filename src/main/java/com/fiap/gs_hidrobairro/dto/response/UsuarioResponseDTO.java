@@ -1,4 +1,4 @@
-package com.fiap.gs_hidrobairro.dto;
+package com.fiap.gs_hidrobairro.dto.response;
 
 import com.fiap.gs_hidrobairro.model.PapelUsuario;
 import com.fiap.gs_hidrobairro.model.Usuario;
@@ -11,7 +11,7 @@ public record UsuarioResponseDTO(
         String nome,
         String email,
         PapelUsuario papel,
-        String ativo,
+        char ativo,
         LocalDateTime criadoEm
 ) {
 

@@ -1,5 +1,6 @@
 package com.fiap.gs_hidrobairro.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,13 +13,21 @@ public class Alerta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //Alerta → PontoMonitoramento: @ManyToOne
-    @Column(name = "PONTO_ID", nullable = false)
-    private Long pontoId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ponto_id", nullable = false)
+    @Schema(
+            description = "Alerta associado ao ponto monitorado",
+            accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private PontoMonitoramento ponto;
 
-    // Alerta → Leitura: @ManyToOne
-    @Column(name = "leitura_id")
-    private Long leituraId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "leitura_id")
+    @Schema(
+            description = "Alerta associado a leitura",
+            accessMode = Schema.AccessMode.READ_ONLY
+    )
+    private Leitura leitura;
 
     @Column(name = "nivel_cm", precision = 8, scale = 2, nullable = false)
     private BigDecimal nivelCm;

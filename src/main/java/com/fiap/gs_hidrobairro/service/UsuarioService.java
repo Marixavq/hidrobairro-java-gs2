@@ -1,7 +1,7 @@
 package com.fiap.gs_hidrobairro.service;
 
-import com.fiap.gs_hidrobairro.dto.UsuarioRequestDTO;
-import com.fiap.gs_hidrobairro.dto.UsuarioResponseDTO;
+import com.fiap.gs_hidrobairro.dto.request.UsuarioRequestDTO;
+import com.fiap.gs_hidrobairro.dto.response.UsuarioResponseDTO;
 import com.fiap.gs_hidrobairro.exception.RecursoNaoEncontradoException;
 import com.fiap.gs_hidrobairro.exception.RegraNegocioException;
 import com.fiap.gs_hidrobairro.model.Usuario;
@@ -9,8 +9,10 @@ import com.fiap.gs_hidrobairro.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
@@ -29,7 +31,8 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setNome(requestDTO.nome());
         usuario.setEmail(requestDTO.email());
-        usuario.setSenhaHash(requestDTO.senha());
+      //  usuario.setSenhaHash(requestDTO.senha());
+        usuario.setSenhaHash(passwordEncoder.encode(senha));
         usuario.setPapel(requestDTO.papel());
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
