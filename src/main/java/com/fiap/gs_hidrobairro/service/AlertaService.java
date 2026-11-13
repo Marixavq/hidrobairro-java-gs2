@@ -76,6 +76,7 @@ public class AlertaService {
             alerta.setSeveridade(severidade);
             alerta.setMensagem("Nível de água em " + nivel + " cm no ponto " + ponto.getNome());
             alerta.setStatus(StatusAlerta.ATIVO);
+            alerta.setCriadoEm(LocalDateTime.now());
 
             alertaRepository.save(alerta);
         }

@@ -44,7 +44,7 @@ public class Alerta {
     @Column(nullable = false)
     private StatusAlerta status = StatusAlerta.ATIVO;
 
-    @Column(name = "criado_em", insertable = false, updatable = false)
+    @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
     @Column(name = "encerrado_em")
