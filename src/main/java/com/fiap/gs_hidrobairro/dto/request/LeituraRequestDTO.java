@@ -1,10 +1,9 @@
 package com.fiap.gs_hidrobairro.dto.request;
 
+import com.fiap.gs_hidrobairro.model.OrigemLeitura;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 
@@ -22,11 +21,10 @@ public record LeituraRequestDTO(
                 example = "45.50")
         BigDecimal nivelCm,
 
-        @NotBlank(message = "A origem da leitura é obrigatória")
-        @Size(max = 20, message = "A origem deve ter no máximo 20 caracteres")
+        @NotNull(message = "A origem da leitura é obrigatória")
         @Schema(
-                description = "Origem da leitura: IOT ou SIMULADO", example = "IOT")
-        String origem
-
+                description = "Origem da leitura: IOT ou SIMULADO",
+                example = "SIMULADO")
+        OrigemLeitura origem
 ) {
 }

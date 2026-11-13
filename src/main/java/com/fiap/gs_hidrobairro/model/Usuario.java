@@ -25,7 +25,7 @@ public class Usuario {
     @Column(length = 20, nullable = false)
     private PapelUsuario papel;
 
-    @Column//(length = 1, nullable = false)
+    @Column(nullable = false)
     private char ativo = 'S';
 
     @Column(name = "criado_em", insertable = false, updatable = false)

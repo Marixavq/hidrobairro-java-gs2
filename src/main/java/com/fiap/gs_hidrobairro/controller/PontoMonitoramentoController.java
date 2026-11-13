@@ -139,33 +139,6 @@ public class PontoMonitoramentoController {
         return ResponseEntity.ok(pontoService.atualizar(id, requestDTO));
     }
 
-    @DeleteMapping("/{id}")
-    @Operation(
-            summary = "Deletar usuário",
-            description = "Remove um usuário do sistema baseado no ID."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "204",
-                    description = "Usuário removido com sucesso"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Usuário não encontrado"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Usuário não autenticado ou token inválido"
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Operação não permitida devido a uma regra de negócio"
-            )
-    })
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        pontoService.deletar(id);
-        return ResponseEntity.noContent().build();
-    }
 
 }
 

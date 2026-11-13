@@ -28,8 +28,9 @@ public class Leitura {
     @Column(name = "coletado_em", insertable = false, updatable = false)
     private LocalDateTime coletadoEm;
 
-    @Column(length = 20, nullable = false)
-    private String origem;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private OrigemLeitura origem;
 
     public Leitura() {
     }
@@ -66,11 +67,11 @@ public class Leitura {
         this.coletadoEm = coletadoEm;
     }
 
-    public String getOrigem() {
+    public OrigemLeitura getOrigem() {
         return origem;
     }
 
-    public void setOrigem(String origem) {
+    public void setOrigem(OrigemLeitura origem) {
         this.origem = origem;
     }
 }

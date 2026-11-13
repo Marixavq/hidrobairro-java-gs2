@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -163,32 +164,54 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioService.atualizar(id, requestDTO));
     }
 
-    @DeleteMapping("/{id}")
+
+
+    @PatchMapping("/{id}/desativar")
+    @PreAuthorize("hasRole('GESTOR')")
     @Operation(
-            summary = "Deletar usuário",
-            description = "Remove um usuário do sistema baseado no ID."
+            summary = "Desativar usuário",
+            description = "Desativa um usuário existente. O usuário deve ser do tipo GESTOR para desativar outro usuário."
     )
     @ApiResponses(value = {
             @ApiResponse(
-                    responseCode = "204",
-                    description = "Usuário removido com sucesso"
+                    responseCode = "200",
+                    description = "Usuário desativado com sucesso"
             ),
             @ApiResponse(
                     responseCode = "404",
                     description = "Usuário não encontrado"
             ),
             @ApiResponse(
-                    responseCode = "401",
-                    description = "Usuário não autenticado ou token inválido"
-            ),
-            @ApiResponse(
-                    responseCode = "409",
-                    description = "Operação não permitida devido a uma regra de negócio"
+                    responseCode = "403",
+                    description = "Usuário não possui permissão para desativar outro usuário"
             )
     })
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        usuarioService.deletar(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<UsuarioResponseDTO> desativar(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.desativar(id));
+    }
+
+    @PatchMapping("/{id}/reaativar")
+    @PreAuthorize("hasRole('GESTOR')")
+    @Operation(
+            summary = "Reativar usuário",
+            description = "Reativa um usuário existente. O usuário deve ser do tipo GESTOR para reativar outro usuário."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Usuário reativado com sucesso"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Usuário não encontrado"
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Usuário não possui permissão para reativar outro usuário"
+            )
+    })
+    public ResponseEntity<UsuarioResponseDTO> reativar(@PathVariable Long id) {
+        return ResponseEntity.ok(usuarioService.reativar(id));
     }
 
 }

@@ -3,6 +3,7 @@ package com.fiap.gs_hidrobairro.service;
 import com.fiap.gs_hidrobairro.dto.request.LeituraRequestDTO;
 import com.fiap.gs_hidrobairro.dto.response.LeituraResponseDTO;
 import com.fiap.gs_hidrobairro.exception.RecursoNaoEncontradoException;
+import com.fiap.gs_hidrobairro.exception.RegraNegocioException;
 import com.fiap.gs_hidrobairro.model.Leitura;
 import com.fiap.gs_hidrobairro.model.PontoMonitoramento;
 import com.fiap.gs_hidrobairro.repository.LeituraRepository;
@@ -18,11 +19,13 @@ public class LeituraService {
 
     private final LeituraRepository leituraRepository;
     private final PontoMonitoramentoRepository pontoMonitoramentoRepository;
+    private final AlertaService alertaService;
 
     @Autowired
-    public LeituraService(LeituraRepository leituraRepository, PontoMonitoramentoRepository pontoMonitoramentoRepository) {
+    public LeituraService(LeituraRepository leituraRepository, PontoMonitoramentoRepository pontoMonitoramentoRepository, AlertaService alertaService) {
         this.leituraRepository = leituraRepository;
         this.pontoMonitoramentoRepository = pontoMonitoramentoRepository;
+        this.alertaService = alertaService;
     }
 
     @Transactional
@@ -30,14 +33,20 @@ public class LeituraService {
         PontoMonitoramento ponto = pontoMonitoramentoRepository.findById(requestDTO.pontoId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Ponto de monitoramento não encontrado"));
 
+        if (ponto.getAtivo() != 'S') {
+            throw new RegraNegocioException("Não é possível registrar leituras em um ponto desativado");
+        }
+
         Leitura leitura = new Leitura();
         leitura.setPonto(ponto);
         leitura.setNivelCm(requestDTO.nivelCm());
         leitura.setOrigem(requestDTO.origem());
 
-        Leitura leituraSalvo = leituraRepository.save(leitura);
+        Leitura leituraSalva = leituraRepository.save(leitura);
 
-        return LeituraResponseDTO.fromEntity(leituraSalvo);
+        alertaService.avaliarLeitura(leituraSalva);
+
+        return LeituraResponseDTO.fromEntity(leituraSalva);
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +58,7 @@ public class LeituraService {
     @Transactional(readOnly = true)
     public LeituraResponseDTO buscarPorId(Long id) {
         Leitura leitura = leituraRepository.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Leitura não encontrado com ID: " + id));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Leitura não encontrada com ID: " + id));
         return LeituraResponseDTO.fromEntity(leitura);
     }
 

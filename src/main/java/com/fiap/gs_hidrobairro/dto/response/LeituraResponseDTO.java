@@ -1,6 +1,7 @@
 package com.fiap.gs_hidrobairro.dto.response;
 
 import com.fiap.gs_hidrobairro.model.Leitura;
+import com.fiap.gs_hidrobairro.model.OrigemLeitura;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ public record LeituraResponseDTO(
         String pontoNome,
         BigDecimal nivelCm,
         LocalDateTime coletadoEm,
-        String origem
+        OrigemLeitura origem
 ) {
 
     public static LeituraResponseDTO fromEntity(Leitura leitura) {

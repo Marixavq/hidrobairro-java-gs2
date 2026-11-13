@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 public record PontoMonitoramentoRequestDTO(
 
         @NotBlank(message = "O nome do ponto é obrigatório")
-        @Size(max = 120, message = "O nome deve ter no máximo 120 caracteres")
+        @Size(min = 3, max = 120, message = "O nome deve ter entre 3 e 120 caracteres")
         @Schema(
                 description = "Nome do ponto de monitoramento",
                 example = "Terminal Campo Limpo")
@@ -35,6 +35,7 @@ public record PontoMonitoramentoRequestDTO(
                 example = "SUL")
         Zona zona,
 
+        @NotNull(message = "A latitude é obrigatória")
         @DecimalMin(value = "-90.0", message = "A latitude mínima é -90")
         @DecimalMax(value = "90.0", message = "A latitude máxima é 90")
         @Schema(
@@ -42,6 +43,7 @@ public record PontoMonitoramentoRequestDTO(
                 example = "-23.6485")
         BigDecimal latitude,
 
+        @NotNull(message = "A longitude é obrigatória")
         @DecimalMin(value = "-180.0", message = "A longitude mínima é -180")
         @DecimalMax(value = "180.0", message = "A longitude máxima é 180")
         @Schema(
@@ -50,8 +52,7 @@ public record PontoMonitoramentoRequestDTO(
         BigDecimal longitude,
 
         @NotNull(message = "O limiar de alerta é obrigatório")
-        @DecimalMin(value = "0.0", inclusive = false,
-                message = "O limiar de alerta deve ser maior que zero")
+        @DecimalMin(value = "0.0", inclusive = false, message = "O limiar de alerta deve ser maior que zero")
         @Schema(
                 description = "Nível de água necessário para gerar alerta, em centímetros",
                 example = "50.00")
