@@ -25,7 +25,7 @@ public class Leitura {
     @Column(name = "nivel_cm", precision = 8, scale = 2, nullable = false)
     private BigDecimal nivelCm;
 
-    @Column(name = "coletado_em", insertable = false, updatable = false)
+    @Column(name = "coletado_em", nullable = false, updatable = false)
     private LocalDateTime coletadoEm;
 
     @Enumerated(EnumType.STRING)

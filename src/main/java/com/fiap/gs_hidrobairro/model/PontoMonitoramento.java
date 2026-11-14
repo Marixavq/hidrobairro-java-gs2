@@ -35,10 +35,10 @@ public class PontoMonitoramento {
     @Column(name = "limiar_alerta_cm", precision = 8, scale = 2, nullable = false)
     private BigDecimal limiarAlertaCm;
 
-    @Column //(length = 1, nullable = false)
+    @Column(length = 1, nullable = false)
     private char ativo = 'S';
 
-    @Column(name = "criado_em", insertable = false, updatable = false)
+    @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
     public PontoMonitoramento() {

@@ -2,7 +2,6 @@ package com.fiap.gs_hidrobairro.controller;
 
 import com.fiap.gs_hidrobairro.dto.request.LeituraRequestDTO;
 import com.fiap.gs_hidrobairro.dto.response.LeituraResponseDTO;
-import com.fiap.gs_hidrobairro.dto.response.UsuarioResponseDTO;
 import com.fiap.gs_hidrobairro.service.LeituraService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,9 +29,10 @@ public class LeituraController {
     private LeituraService leituraService;
 
     @PostMapping
+    //ainda vamos integrar com o IoT
     @Operation(
             summary = "Criar leitura",
-            description = "Cria uma nova leitura no sistema."
+            description = "Registra uma nova leitura de um ponto de monitoramento."
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -41,7 +42,23 @@ public class LeituraController {
             @ApiResponse(
                     responseCode = "400",
                     description = "Dados inválidos"
-            )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Usuário não autenticado ou token inválido"
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Item não encontrado"
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Operação não permitida devido a uma regra de negócio"
+            ),
     })
     public ResponseEntity<LeituraResponseDTO> criar(@Valid @RequestBody LeituraRequestDTO requestDTO) {
         LeituraResponseDTO novaLeitura = leituraService.salvar(requestDTO);
@@ -49,17 +66,17 @@ public class LeituraController {
     }
 
     @GetMapping
-    //@PreAuthorize
+    @PreAuthorize("hasAnyRole('CIDADAO', 'GESTOR')")
     @Operation(
             summary = "Listar leituras",
-            description = "Retorna uma lista completa de todos as leituras cadastradas."
+            description = "Retorna as leituras cadastradas no sistema."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
                     description = "Lista de leituras retornada com sucesso",
                     content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = UsuarioResponseDTO.class)
+                            schema = @Schema(implementation = LeituraResponseDTO.class)
                     )
             ),
             @ApiResponse(
@@ -67,8 +84,8 @@ public class LeituraController {
                     description = "Usuário não autenticado ou token inválido"
             ),
             @ApiResponse(
-                    responseCode = "409",
-                    description = "Operação não permitida devido a uma regra de negócio"
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
             )
     })
     public ResponseEntity<Page<LeituraResponseDTO>> listarTodos(
@@ -84,24 +101,33 @@ public class LeituraController {
     }
 
     @GetMapping("/{id}")
-    //@PreAuthorizeuario
+    @PreAuthorize("hasAnyRole('CIDADAO', 'GESTOR')")
     @Operation(
             summary = "Buscar leitura por ID",
-            description = "Retorna uma leitura específico baseado no ID."
+            description = "Retorna uma leitura específica pelo ID."
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Leitura encontrado com sucesso"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Leitura não encontrado"
+                    description = "Leitura encontrada com sucesso"
             ),
             @ApiResponse(
                     responseCode = "401",
                     description = "Usuário não autenticado ou token inválido"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Leitura não encontrada"
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Item não encontrado"
             )
+
     })
     public ResponseEntity<LeituraResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(leituraService.buscarPorId(id));

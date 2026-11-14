@@ -1,8 +1,12 @@
 package com.fiap.gs_hidrobairro.service;
 
+import com.fiap.gs_hidrobairro.dto.response.AlertaResponseDTO;
+import com.fiap.gs_hidrobairro.exception.RecursoNaoEncontradoException;
 import com.fiap.gs_hidrobairro.model.*;
 import com.fiap.gs_hidrobairro.repository.AlertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,10 +35,8 @@ public class AlertaService {
         Optional<Alerta> alertaExistente =
                 alertaRepository.findByPontoIdAndStatus(ponto.getId(), StatusAlerta.ATIVO);
 
-        // Se o nível estiver abaixo do limiar
         if (nivel.compareTo(limiar) < 0) {
 
-            // Encerra o alerta ativo, caso exista
             if (alertaExistente.isPresent()) {
                 Alerta alerta = alertaExistente.get();
 
@@ -53,7 +55,7 @@ public class AlertaService {
                         ? SeveridadeAlerta.CRITICO
                         : SeveridadeAlerta.ATENCAO;
 
-        // Se já existe alerta, atualiza
+        // atualiza o alerta existente, se existir
         if (alertaExistente.isPresent()) {
 
             Alerta alerta = alertaExistente.get();
@@ -66,8 +68,6 @@ public class AlertaService {
             alertaRepository.save(alerta);
 
         } else {
-
-            // Se não existe, cria um novo
             Alerta alerta = new Alerta();
 
             alerta.setPonto(ponto);
@@ -81,4 +81,24 @@ public class AlertaService {
             alertaRepository.save(alerta);
         }
     }
+
+    @Transactional(readOnly = true)
+    public Page<AlertaResponseDTO> listarTodos(Pageable pageable) {
+        Page<Alerta> alertas = alertaRepository.findAll(pageable);
+        return alertas.map(AlertaResponseDTO::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public AlertaResponseDTO buscarPorId(Long id) {
+        Alerta alerta = alertaRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Alerta não encontrado com ID: " + id));
+        return AlertaResponseDTO.fromEntity(alerta);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AlertaResponseDTO> listarAtivos(Pageable pageable) {
+        Page<Alerta> alertas = alertaRepository.findByStatus(StatusAlerta.ATIVO, pageable);
+        return alertas.map(AlertaResponseDTO::fromEntity);
+    }
+
 }

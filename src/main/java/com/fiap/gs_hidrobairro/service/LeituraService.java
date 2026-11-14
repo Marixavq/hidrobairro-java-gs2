@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class LeituraService {
 
@@ -40,6 +42,7 @@ public class LeituraService {
         Leitura leitura = new Leitura();
         leitura.setPonto(ponto);
         leitura.setNivelCm(requestDTO.nivelCm());
+        leitura.setColetadoEm(LocalDateTime.now());
         leitura.setOrigem(requestDTO.origem());
 
         Leitura leituraSalva = leituraRepository.save(leitura);

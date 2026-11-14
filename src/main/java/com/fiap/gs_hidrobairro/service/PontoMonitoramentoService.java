@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class PontoMonitoramentoService {
 
@@ -33,6 +35,7 @@ public class PontoMonitoramentoService {
         ponto.setLatitude(requestDTO.latitude());
         ponto.setLongitude(requestDTO.longitude());
         ponto.setLimiarAlertaCm(requestDTO.limiarAlertaCm());
+        ponto.setCriadoEm(LocalDateTime.now());
 
         PontoMonitoramento pontoSalvo = pontoRepository.save(ponto);
 

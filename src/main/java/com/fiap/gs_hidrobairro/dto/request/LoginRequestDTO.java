@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record LoginRequestDTO(
 
-
         @NotBlank(message = "Email é obrigatório")
         @Email(message = "Email inválido")
         @Schema(

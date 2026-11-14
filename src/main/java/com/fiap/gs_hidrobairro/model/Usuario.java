@@ -25,10 +25,10 @@ public class Usuario {
     @Column(length = 20, nullable = false)
     private PapelUsuario papel;
 
-    @Column(nullable = false)
+    @Column(length = 1, nullable = false)
     private char ativo = 'S';
 
-    @Column(name = "criado_em", insertable = false, updatable = false)
+    @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
     public Usuario() {

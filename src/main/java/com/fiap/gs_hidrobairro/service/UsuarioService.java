@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class UsuarioService {
 
@@ -39,6 +41,7 @@ public class UsuarioService {
         usuario.setEmail(requestDTO.email());
         usuario.setSenhaHash(passwordEncoder.encode(requestDTO.senha()));
         usuario.setPapel(requestDTO.papel());
+        usuario.setCriadoEm(LocalDateTime.now());
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
@@ -53,6 +56,11 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public UsuarioResponseDTO buscarPorId(Long id) {
+
+        Usuario usuarioLogado = getUsuarioAutenticado();
+
+        validarProprioUsuario(id, usuarioLogado);
+
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com ID: " + id));
         return UsuarioResponseDTO.fromEntity(usuario);
@@ -67,6 +75,11 @@ public class UsuarioService {
 
     @Transactional
     public UsuarioResponseDTO atualizar(Long id, UsuarioRequestDTO requestDTO) {
+
+        Usuario usuarioLogado = getUsuarioAutenticado();
+
+        validarProprioUsuario(id, usuarioLogado);
+
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com ID: " + id));
 
@@ -88,7 +101,6 @@ public class UsuarioService {
         return UsuarioResponseDTO.fromEntity(usuarioAtualizado);
     }
 
-    // Usuário não pode ser excluído literalmente, apenas desativado (pelo GESTOR)
     @Transactional
     public UsuarioResponseDTO desativar(Long id) {
         Usuario usuarioLogado = getUsuarioAutenticado();
@@ -137,4 +149,11 @@ public class UsuarioService {
             throw new AcessoNegadoException("Você não pode desativar sua própria conta");
         }
     }
+
+    private void validarProprioUsuario(Long id, Usuario usuarioLogado) {
+        if (!id.equals(usuarioLogado.getId())) {
+            throw new AcessoNegadoException("Você não pode acessar os dados de outro usuário");
+        }
+    }
+
 }

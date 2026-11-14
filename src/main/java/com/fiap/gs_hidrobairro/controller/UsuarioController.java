@@ -44,12 +44,12 @@ public class UsuarioController {
             )
     })
     public ResponseEntity<UsuarioResponseDTO> criar(@Valid @RequestBody UsuarioRequestDTO requestDTO) {
-        UsuarioResponseDTO novoUser = usuarioService.salvar(requestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoUser);
+        UsuarioResponseDTO novoUsuario = usuarioService.salvar(requestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoUsuario);
     }
 
     @GetMapping
-    //@PreAuthorize
+    @PreAuthorize("hasAnyRole('GESTOR')")
     @Operation(
             summary = "Listar usuários",
             description = "Retorna uma lista completa de todos os usuários cadastrados."
@@ -67,9 +67,9 @@ public class UsuarioController {
                     description = "Usuário não autenticado ou token inválido"
             ),
             @ApiResponse(
-                    responseCode = "409",
-                    description = "Operação não permitida devido a uma regra de negócio"
-            )
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
     })
     public ResponseEntity<Page<UsuarioResponseDTO>> listarTodos(
             @PageableDefault(
@@ -85,7 +85,7 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
-    //@PreAuthorize
+    @PreAuthorize("hasAnyRole('CIDADAO', 'GESTOR')")
     @Operation(
             summary = "Buscar usuário por ID",
             description = "Retorna um usuário específico baseado no ID."
@@ -102,14 +102,18 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Usuário não autenticado ou token inválido"
-            )
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
     })
     public ResponseEntity<UsuarioResponseDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.buscarPorId(id));
     }
 
     @GetMapping("/email/{email}")
-    //@PreAuthorize
+    @PreAuthorize("hasAnyRole('GESTOR')")
     @Operation(
             summary = "Buscar usuário por email",
             description = "Retorna um usuário específico baseado no email."
@@ -126,14 +130,18 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Usuário não autenticado ou token inválido"
-            )
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
     })
     public ResponseEntity<UsuarioResponseDTO> buscarPorEmail(@PathVariable String email) {
         return ResponseEntity.ok(usuarioService.buscarPorEmail(email));
     }
 
     @PutMapping("/{id}")
-    //@PreAuthorize
+    @PreAuthorize("hasAnyRole('CIDADAO', 'GESTOR')")
     @Operation(
             summary = "Atualizar usuário",
             description = "Atualiza os dados de um usuário existente."
@@ -158,7 +166,11 @@ public class UsuarioController {
             @ApiResponse(
                     responseCode = "409",
                     description = "Operação não permitida devido a uma regra de negócio"
-            )
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
     })
     public ResponseEntity<UsuarioResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody UsuarioRequestDTO requestDTO) {
         return ResponseEntity.ok(usuarioService.atualizar(id, requestDTO));
@@ -170,7 +182,7 @@ public class UsuarioController {
     @PreAuthorize("hasRole('GESTOR')")
     @Operation(
             summary = "Desativar usuário",
-            description = "Desativa um usuário existente. O usuário deve ser do tipo GESTOR para desativar outro usuário."
+            description = "Desativa um usuário existente. Operação exclusiva para gestores."
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -178,23 +190,27 @@ public class UsuarioController {
                     description = "Usuário desativado com sucesso"
             ),
             @ApiResponse(
+                    responseCode = "401",
+                    description = "Usuário não autenticado ou token inválido"
+            ),
+            @ApiResponse(
                     responseCode = "404",
                     description = "Usuário não encontrado"
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Usuário não possui permissão para desativar outro usuário"
-            )
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
     })
     public ResponseEntity<UsuarioResponseDTO> desativar(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.desativar(id));
     }
 
-    @PatchMapping("/{id}/reaativar")
+    @PatchMapping("/{id}/reativar")
     @PreAuthorize("hasRole('GESTOR')")
     @Operation(
             summary = "Reativar usuário",
-            description = "Reativa um usuário existente. O usuário deve ser do tipo GESTOR para reativar outro usuário."
+            description = "Reativa um usuário existente. Operação exclusiva para gestores."
     )
     @ApiResponses(value = {
             @ApiResponse(
@@ -202,13 +218,17 @@ public class UsuarioController {
                     description = "Usuário reativado com sucesso"
             ),
             @ApiResponse(
+                    responseCode = "401",
+                    description = "Usuário não autenticado ou token inválido"
+            ),
+            @ApiResponse(
                     responseCode = "404",
                     description = "Usuário não encontrado"
             ),
             @ApiResponse(
                     responseCode = "403",
-                    description = "Usuário não possui permissão para reativar outro usuário"
-            )
+                    description = "Usuário autenticado, mas sem permissão para acessar este recurso"
+            ),
     })
     public ResponseEntity<UsuarioResponseDTO> reativar(@PathVariable Long id) {
         return ResponseEntity.ok(usuarioService.reativar(id));

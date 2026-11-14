@@ -11,7 +11,8 @@ public record LeituraRequestDTO(
 
         @NotNull(message = "O ponto de monitoramento é obrigatório")
         @Schema(
-                description = "ID do ponto de monitoramento associado à leitura")
+                description = "ID do ponto de monitoramento associado à leitura",
+                example = "1")
         Long pontoId,
 
         @NotNull(message = "O nível da água é obrigatório")
