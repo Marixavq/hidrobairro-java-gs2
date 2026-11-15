@@ -1,10 +1,12 @@
 package com.fiap.gs_hidrobairro.service;
 
 import com.fiap.gs_hidrobairro.dto.response.AlertaResponseDTO;
+import com.fiap.gs_hidrobairro.event.AlertaCriadoEvent;
 import com.fiap.gs_hidrobairro.exception.RecursoNaoEncontradoException;
 import com.fiap.gs_hidrobairro.model.*;
 import com.fiap.gs_hidrobairro.repository.AlertaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,10 +20,13 @@ import java.util.Optional;
 public class AlertaService {
 
     private final AlertaRepository alertaRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    public AlertaService(AlertaRepository alertaRepository) {
+    public AlertaService(AlertaRepository alertaRepository, ApplicationEventPublisher eventPublisher) {
+
         this.alertaRepository = alertaRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -78,7 +83,21 @@ public class AlertaService {
             alerta.setStatus(StatusAlerta.ATIVO);
             alerta.setCriadoEm(LocalDateTime.now());
 
-            alertaRepository.save(alerta);
+            Alerta alertaSalvo = alertaRepository.save(alerta);
+
+            AlertaCriadoEvent evento = new AlertaCriadoEvent(
+                    alertaSalvo.getId(),
+                    ponto.getId(),
+                    ponto.getNome(),
+                    ponto.getBairro(),
+                    ponto.getSubprefeitura(),
+                    nivel,
+                    severidade.name(),
+                    alertaSalvo.getMensagem(),
+                    alertaSalvo.getCriadoEm()
+            );
+
+            eventPublisher.publishEvent(evento);
         }
     }
 
