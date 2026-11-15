@@ -9,6 +9,7 @@ import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.stream.Collectors;
 
@@ -72,6 +73,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUsuarioDesabilitado(DisabledException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<String> handleResponseStatus(
+            ResponseStatusException ex) {
+
+        return ResponseEntity
+                .status(ex.getStatusCode())
+                .body(ex.getReason());
     }
 
     @ExceptionHandler(Exception.class)
