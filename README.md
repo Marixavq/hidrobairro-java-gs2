@@ -97,6 +97,9 @@ Render:  https://hidrobairro-java-gs2.onrender.com/swagger-ui/index.html
 Local: http://localhost:8080/swagger-ui/index.html
 
 
+
+
+https://wokwi.com/projects/480842555616945153
 RabbitMQ tá rodando localmente apenas.
 
 ---
