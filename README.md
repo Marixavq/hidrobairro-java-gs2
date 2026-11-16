@@ -39,12 +39,16 @@ src/
     ├── java/
     │   └── com/fiap/challengepetcenter/
     │       ├── config/
+    │       ├── consumer/
     │       ├── controller/
     │       ├── dto/
     │       │   ├── request/
     │       │   └── response/
-            ├── exception/
+    │       ├── event/
+    │       ├── exception/
+    │       ├── listener
     │       ├── model/
+    │       ├── publisher
     │       ├── repository/
     │       ├── security/
     │       ├── service/
@@ -53,7 +57,9 @@ src/
     └── resources/
         ├── db/
         │   └── migration/
-        └── application.properties
+        ├── application.properties
+        └── application.yml
+        
 ```
 
 A aplicação utiliza uma arquitetura em camadas:
@@ -70,6 +76,11 @@ Oracle Database
 
 ---
 
+Render:  https://hidrobairro-java-gs2.onrender.com/swagger-ui/index.html
+
+Local: http://localhost:8080/swagger-ui/index.html
+
+---
 
 ## 👨‍💻 Equipe
 
