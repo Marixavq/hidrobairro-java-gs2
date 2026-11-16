@@ -76,6 +76,22 @@ Oracle Database
 
 ---
 
+### Conversão da distância em nível da água
+
+O sensor ultrassônico HC-SR04 mede a distância entre sua posição de instalação e a superfície da água, em centímetros (`distanciaCm`).
+
+Para a simulação no Wokwi, adotamos uma altura de referência fictícia de **400 cm**. A partir dessa referência, a API Java calcula o nível estimado da água:
+
+**nivelCm = 400 - distanciaCm**
+
+Exemplo: se o sensor medir 100 cm até a superfície da água, o nível estimado será de 300 cm.
+
+Quanto menor a distância entre o sensor e a água, maior será o nível calculado.
+
+**Importante:** a referência de 400 cm é uma premissa utilizada exclusivamente para a simulação. Em uma instalação física, essa altura deverá ser medida e calibrada conforme a posição do sensor e o ponto de referência adotado. O nível calculado é uma estimativa, não uma medição direta da profundidade de um rio ou córrego.
+
+---
+
 Render:  https://hidrobairro-java-gs2.onrender.com/swagger-ui/index.html
 
 Local: http://localhost:8080/swagger-ui/index.html

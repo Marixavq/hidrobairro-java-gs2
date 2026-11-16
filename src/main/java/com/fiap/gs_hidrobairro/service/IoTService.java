@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Service
 public class IoTService {
 
-    private static final BigDecimal ALTURA_REFERENCIA_CM = new BigDecimal("150.00");
+    private static final BigDecimal ALTURA_REFERENCIA_CM = new BigDecimal("400.00");
 
     private final LeituraService leituraService;
 
