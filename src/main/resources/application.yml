@@ -2,6 +2,14 @@ spring:
   application:
     name: gs-hidrobairro
 
+  # Gemini
+  ai:
+    google:
+      genai:
+        api-key: ${GEMINI_API_KEY}
+        chat:
+          model: gemini-3.8-flash
+
   rabbitmq:
     host: localhost
     port: 5672
