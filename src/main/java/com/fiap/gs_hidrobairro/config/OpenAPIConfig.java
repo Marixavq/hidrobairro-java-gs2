@@ -15,7 +15,7 @@ public class OpenAPIConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Challenge PetCenter API")
+                        .title("HidroBairro API")
                         .version("1.0"))
                 .components(new Components()
                         .addSecuritySchemes(

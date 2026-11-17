@@ -21,11 +21,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         Usuario usuario = usuarioRepository.findByEmail(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(usuario.getEmail())
-                .password(usuario.getSenhaHash())
-                .disabled(usuario.getAtivo() != 'S')
-                .roles(usuario.getPapel().name())
-                .build();
+        return new CustomUserDetails(
+                usuario.getEmail(),
+                usuario.getSenhaHash(),
+                usuario.getPapel()
+        ) {
+            @Override
+            public boolean isEnabled() {
+                return usuario.getAtivo() == 'S';
+            }
+        };
     }
 }

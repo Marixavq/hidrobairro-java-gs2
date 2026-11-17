@@ -1,5 +1,6 @@
 package com.fiap.gs_hidrobairro.security;
 
+import com.fiap.gs_hidrobairro.service.CustomUserDetails;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -22,8 +23,11 @@ public class JwtService {
 
     public String gerarToken(UserDetails userDetails) {
 
+        CustomUserDetails usuario = (CustomUserDetails) userDetails;
+
         return Jwts.builder()
-                .subject(userDetails.getUsername())
+                .subject(usuario.getUsername())
+                .claim("role", usuario.getPapel().name())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 86400000))
                 .signWith(getSigningKey())
