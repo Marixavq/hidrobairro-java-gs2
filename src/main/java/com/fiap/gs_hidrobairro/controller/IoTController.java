@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -45,9 +46,7 @@ public class IoTController {
                     description = "Ponto de monitoramento não encontrado"
             )
     })
-    public ResponseEntity<LeituraResponseDTO> receberLeitura(
-            @RequestParam Long pontoId,
-            @RequestBody IoTLeituraRequestDTO leitura) {
+    public ResponseEntity<LeituraResponseDTO> receberLeitura(@Valid @RequestParam Long pontoId, @RequestBody IoTLeituraRequestDTO leitura) {
 
         log.info("Leitura recebida do ESP32: {}", leitura);
 

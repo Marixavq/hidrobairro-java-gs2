@@ -10,7 +10,7 @@ public record OrientacaoRequestDTO(
         @Size(max = 500, message = "A pergunta deve ter no máximo 500 caracteres")
         @Schema(
                 description = "Pergunta do usuário a IA",
-                example = "Posso ir ao Terminal Santana?")
+                example = "Posso ir ao Terminal Campo Limpo?")
         String pergunta
 
 ) {}
