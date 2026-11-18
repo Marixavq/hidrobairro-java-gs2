@@ -1,6 +1,6 @@
 package com.fiap.gs_hidrobairro.dto.request;
 
-import com.fiap.gs_hidrobairro.model.PapelUsuario;
+import com.fiap.gs_hidrobairro.model.enums.PapelUsuario;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ public record UsuarioRequestDTO(
         @Size(min = 3, max = 120, message = "O nome deve ter entre 3 e 120 caracteres")
         @Schema(
                 description = "Nome do usuário",
-                example = "João Silva"
+                example = "George Harrison"
         )
         String nome,
 
@@ -22,7 +22,7 @@ public record UsuarioRequestDTO(
         @Size(max = 180, message = "O email deve ter no máximo 180 caracteres")
         @Schema(
                 description = "Email do usuário",
-                example = "joao@email.com"
+                example = "george@email.com"
         )
         String email,
 

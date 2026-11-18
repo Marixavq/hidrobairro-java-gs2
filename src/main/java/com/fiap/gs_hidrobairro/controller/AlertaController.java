@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,8 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Alertas", description = "Endpoints para gerenciamento de alertas")
 public class AlertaController {
 
-    @Autowired
-    private AlertaService alertaService;
+    private final AlertaService alertaService;
+
+    public AlertaController(AlertaService alertaService) {
+        this.alertaService = alertaService;
+    }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('CIDADAO', 'GESTOR')")

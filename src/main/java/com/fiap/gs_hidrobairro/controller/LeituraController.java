@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,8 +24,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Leituras", description = "Endpoints para gerenciamento de leituras")
 public class LeituraController {
 
-    @Autowired
-    private LeituraService leituraService;
+    private final LeituraService leituraService;
+
+    public LeituraController(LeituraService leituraService) {
+        this.leituraService = leituraService;
+    }
 
     @PostMapping
     //ainda vamos integrar com o IoT

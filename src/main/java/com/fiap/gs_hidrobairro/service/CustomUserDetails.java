@@ -1,6 +1,6 @@
 package com.fiap.gs_hidrobairro.service;
 
-import com.fiap.gs_hidrobairro.model.PapelUsuario;
+import com.fiap.gs_hidrobairro.model.enums.PapelUsuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
 package com.fiap.gs_hidrobairro.dto.request;
 
-import com.fiap.gs_hidrobairro.model.OrigemLeitura;
+import com.fiap.gs_hidrobairro.model.enums.OrigemLeitura;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

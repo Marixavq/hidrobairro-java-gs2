@@ -1,5 +1,6 @@
 package com.fiap.gs_hidrobairro.model;
 
+import com.fiap.gs_hidrobairro.model.enums.PapelUsuario;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

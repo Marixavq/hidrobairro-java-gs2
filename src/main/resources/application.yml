@@ -8,7 +8,9 @@ spring:
       genai:
         api-key: ${GEMINI_API_KEY}
         chat:
-          model: gemini-3.8-flash
+          options:
+            model: gemini-3.5-flash-lite
+            thinking-level: MINIMAL
 
   rabbitmq:
     host: localhost

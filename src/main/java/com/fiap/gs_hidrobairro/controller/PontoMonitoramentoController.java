@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -26,8 +25,11 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Pontos de Monitoramento", description = "Endpoints para gerenciamento de pontos de monitoramento")
 public class PontoMonitoramentoController {
 
-    @Autowired
-    private PontoMonitoramentoService pontoService;
+    private final PontoMonitoramentoService pontoService;
+
+    public PontoMonitoramentoController(PontoMonitoramentoService pontoService) {
+        this.pontoService = pontoService;
+    }
 
     @PostMapping
     @PreAuthorize("hasRole('GESTOR')")

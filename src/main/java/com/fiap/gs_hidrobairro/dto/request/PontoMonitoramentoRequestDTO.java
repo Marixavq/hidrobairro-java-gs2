@@ -1,6 +1,6 @@
 package com.fiap.gs_hidrobairro.dto.request;
 
-import com.fiap.gs_hidrobairro.model.Zona;
+import com.fiap.gs_hidrobairro.model.enums.Zona;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 

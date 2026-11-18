@@ -1,8 +1,8 @@
 package com.fiap.gs_hidrobairro.dto.response;
 
 import com.fiap.gs_hidrobairro.model.Alerta;
-import com.fiap.gs_hidrobairro.model.SeveridadeAlerta;
-import com.fiap.gs_hidrobairro.model.StatusAlerta;
+import com.fiap.gs_hidrobairro.model.enums.SeveridadeAlerta;
+import com.fiap.gs_hidrobairro.model.enums.StatusAlerta;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

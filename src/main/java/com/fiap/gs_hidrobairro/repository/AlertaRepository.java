@@ -1,7 +1,7 @@
 package com.fiap.gs_hidrobairro.repository;
 
 import com.fiap.gs_hidrobairro.model.Alerta;
-import com.fiap.gs_hidrobairro.model.StatusAlerta;
+import com.fiap.gs_hidrobairro.model.enums.StatusAlerta;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

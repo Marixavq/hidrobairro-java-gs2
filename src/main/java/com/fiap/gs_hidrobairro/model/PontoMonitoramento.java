@@ -1,5 +1,6 @@
 package com.fiap.gs_hidrobairro.model;
 
+import com.fiap.gs_hidrobairro.model.enums.Zona;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

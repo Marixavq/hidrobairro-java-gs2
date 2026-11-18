@@ -1,5 +1,6 @@
 package com.fiap.gs_hidrobairro.model;
 
+import com.fiap.gs_hidrobairro.model.enums.OrigemLeitura;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 

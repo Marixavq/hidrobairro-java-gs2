@@ -1,7 +1,7 @@
 package com.fiap.gs_hidrobairro.dto.response;
 
 import com.fiap.gs_hidrobairro.model.PontoMonitoramento;
-import com.fiap.gs_hidrobairro.model.Zona;
+import com.fiap.gs_hidrobairro.model.enums.Zona;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -10,7 +10,7 @@ public record LoginRequestDTO(
         @Email(message = "Email inválido")
         @Schema(
                 description = "Email do usuário",
-                example = "joao@email.com"
+                example = "george@email.com"
         )
         String email,
 

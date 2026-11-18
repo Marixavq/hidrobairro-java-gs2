@@ -5,7 +5,7 @@ import com.fiap.gs_hidrobairro.dto.iot.IoTLeituraRequestDTO;
 import com.fiap.gs_hidrobairro.dto.request.LeituraRequestDTO;
 import com.fiap.gs_hidrobairro.dto.response.LeituraResponseDTO;
 import com.fiap.gs_hidrobairro.exception.RegraNegocioException;
-import com.fiap.gs_hidrobairro.model.OrigemLeitura;
+import com.fiap.gs_hidrobairro.model.enums.OrigemLeitura;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

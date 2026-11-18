@@ -1,7 +1,7 @@
 package com.fiap.gs_hidrobairro.dto.response;
 
-import com.fiap.gs_hidrobairro.model.PapelUsuario;
 import com.fiap.gs_hidrobairro.model.Usuario;
+import com.fiap.gs_hidrobairro.model.enums.PapelUsuario;
 
 import java.time.LocalDateTime;
 

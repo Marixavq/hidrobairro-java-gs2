@@ -9,5 +9,5 @@ import java.util.Optional;
 @Repository
 public interface LeituraRepository extends JpaRepository<Leitura, Long> {
 
-    Optional<Leitura> findTopByPonto_IdOrderByColetadoEmDesc(Long pontoId);
+    Optional<Leitura> findTopByPontoIdOrderByColetadoEmDesc(Long pontoId);
 }

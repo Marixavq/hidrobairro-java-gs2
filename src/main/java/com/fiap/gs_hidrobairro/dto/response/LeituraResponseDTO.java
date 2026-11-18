@@ -1,7 +1,7 @@
 package com.fiap.gs_hidrobairro.dto.response;
 
 import com.fiap.gs_hidrobairro.model.Leitura;
-import com.fiap.gs_hidrobairro.model.OrigemLeitura;
+import com.fiap.gs_hidrobairro.model.enums.OrigemLeitura;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
