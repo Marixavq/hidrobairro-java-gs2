@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
@@ -26,6 +27,8 @@ public class PontoMonitoramentoService {
 
     @Transactional
     public PontoMonitoramentoResponseDTO salvar(PontoMonitoramentoRequestDTO requestDTO) {
+
+        validarLimiar(requestDTO.limiarAlertaCm());
 
         PontoMonitoramento ponto = new PontoMonitoramento();
         ponto.setNome(requestDTO.nome());
@@ -107,5 +110,10 @@ public class PontoMonitoramentoService {
         return PontoMonitoramentoResponseDTO.fromEntity(ponto);
     }
 
+    private void validarLimiar(BigDecimal limiar) {
+        if (limiar == null || limiar.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new RegraNegocioException("O limiar de alerta deve ser maior que zero.");
+        }
+    }
 
 }
